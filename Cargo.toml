@@ -1,0 +1,37 @@
+[package]
+name = "mcpg-plugin-credential-gcp-impersonation"
+version = "0.1.0-alpha.15"
+license = "BUSL-1.1"
+edition = "2024"
+description = "GCP service-account impersonation credential_issuer plugin for MCPG — per-caller short-lived GCP access/ID tokens via the IAM Credentials REST API"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+mcpg-plugin-protocol = { git = "https://github.com/mcpg-dev/mcpg-plugin-protocol", tag = "v0.1.0-beta.13", version = "=0.1.0-beta.13" }
+mcpg-plugin-sdk = { git = "https://github.com/mcpg-dev/mcpg-plugin-sdk", tag = "v0.1.0-beta.13", version = "=0.1.0-beta.13" }
+async-trait = "0.1"
+base64 = "0.22"
+chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
+metrics = "0.24"
+# rustls-only (deny.toml bans openssl/native-tls); the default reqwest
+# features pull native-tls, so disable defaults + select rustls-tls.
+reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+thiserror = "2.0"
+tokio = { version = "1", features = ["rt-multi-thread", "macros", "sync"] }
+tracing = "0.1"
+
+[dev-dependencies]
+# Offline HTTP-contract tests against a mock IAM Credentials / metadata
+# endpoint (no docker, no cloud); runs in the push lane.
+wiremock = "0.6"
+
+[features]
+default = ["cdylib-export"]
+cdylib-export = []
+# Declared so the SDK's static-firstparty fast path does not trip
+# `unexpected_cfgs`. Empty: this plugin is consumed as a cdylib.
+static-firstparty = []

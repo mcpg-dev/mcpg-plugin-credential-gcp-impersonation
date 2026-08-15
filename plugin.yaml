@@ -1,0 +1,20 @@
+schema: mcpg.dev/plugin/v1
+id: dev.mcpg.credential.gcp-impersonation
+name: GCP Service-Account Impersonation
+license: BUSL-1.1
+description: |
+  A credential_issuer that mints short-lived GCP credentials per caller
+  request via the IAM Credentials REST API. The gateway authenticates
+  with its own base identity (GKE Workload Identity / GCE metadata
+  server, or an operator-supplied token) and impersonates a target
+  service account chosen by mapping the caller's identity (static /
+  subject_id / from_role / template), returning an OAuth2 access token
+  (generateAccessToken) or an OIDC ID token (generateIdToken).
+  Identity-derived target service accounts require Verified trust, pass
+  a service-account-email shape check, and an optional per-target
+  allowlist. Tokens auto-expire (no revocation API).
+class: credential_issuer
+runtime: native-cdylib-v1
+protocol_version: "1.0"
+required_capabilities:
+  - network_outbound
