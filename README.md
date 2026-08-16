@@ -81,8 +81,18 @@ plugins:
           scopes: ["https://www.googleapis.com/auth/cloud-platform"]
 ```
 
-Bindings consume the issued credential via `cred://gcp-impersonation/<target>`
-in any config-origin position.
+Bindings consume the issued credential via
+`cred://<plugin-alias>/<target>` in any config-origin position — the
+first segment is the `plugins[].id` alias, so the entry above is reached
+as:
+
+```yaml
+Authorization: "Bearer ${cred://dev.mcpg.credential.gcp-impersonation/bq-reader}"
+```
+
+Give the entry a shorter `id` and set `ref` to the manifest id when a
+terser reference is wanted, or when one artifact runs under several
+aliases.
 
 ## Issued credential
 
