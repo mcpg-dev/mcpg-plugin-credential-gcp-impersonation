@@ -1,6 +1,6 @@
 [package]
 name = "mcpg-plugin-credential-gcp-impersonation"
-version = "0.1.0-alpha.31"
+version = "0.1.0-alpha.37"
 license = "BUSL-1.1"
 edition = "2024"
 description = "GCP service-account impersonation credential_issuer plugin for MCPG — per-caller short-lived GCP access/ID tokens via the IAM Credentials REST API"
@@ -9,15 +9,15 @@ description = "GCP service-account impersonation credential_issuer plugin for MC
 crate-type = ["cdylib", "rlib"]
 
 [dependencies]
-mcpg-plugin-protocol = { git = "https://github.com/mcpg-dev/mcpg-plugin-protocol", tag = "v0.1.0-beta.29", version = "=0.1.0-beta.29" }
-mcpg-plugin-sdk = { git = "https://github.com/mcpg-dev/mcpg-plugin-sdk", tag = "v0.1.0-beta.30", version = "=0.1.0-beta.30" }
+mcpg-plugin-protocol = { git = "https://github.com/mcpg-dev/mcpg-plugin-protocol", tag = "v0.1.0-beta.35", version = "=0.1.0-beta.35" }
+mcpg-plugin-sdk = { git = "https://github.com/mcpg-dev/mcpg-plugin-sdk", tag = "v0.1.0-beta.36", version = "=0.1.0-beta.36" }
 async-trait = "0.1"
-base64 = "0.22"
+base64 = "0.23"
 chrono = { version = "0.4", default-features = false, features = ["clock", "std"] }
 metrics = "0.24"
 # rustls-only (deny.toml bans openssl/native-tls); the default reqwest
-# features pull native-tls, so disable defaults + select rustls-tls.
-reqwest = { version = "0.12", default-features = false, features = ["rustls-tls", "json"] }
+# features pull native-tls, so disable defaults + select rustls.
+reqwest = { version = "0.13", default-features = false, features = ["rustls", "json"] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 thiserror = "2.0"
